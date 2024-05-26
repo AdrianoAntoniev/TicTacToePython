@@ -1,18 +1,20 @@
 import random
 import os
 
+# -------- Constants
 grid_size = 9
 empty_char = " "
 options = ["X", "O"]
 exit_game_code = -2
 input_error_code = -1
 game_moves = 0
+# --------
 
 def start_game():
     end_game = False
 
     while not end_game:
-        prepare_game()
+        game_loop()
         print("Deseja jogar novamente? <s-sim; n-não>...")
 
         while True:
@@ -24,7 +26,7 @@ def start_game():
             else:
                 print("Resposta inválida! Por favor, digite <s> ou <n>")
 
-def prepare_game():
+def game_loop():
     init_grid()
     init_vars()
 
@@ -47,20 +49,14 @@ def prepare_game():
         if not is_end_game:
             is_end_game = make_cpu_play()
             if is_end_game:
-                print_game_view()
-                reason = "CPU venceu!"
-                finish_game(reason=reason)
+                finish_game(reason="CPU venceu!")
                 break
             else:
                 if is_draw():
-                    print_game_view()
-                    reason = "Empatou."
-                    finish_game(reason)
+                    finish_game(reason="Empatou.")
                     break
         else:
-            print_game_view()
-            reason = "Parabéns! Você ganhou!"
-            finish_game(reason)
+            finish_game(reason="Parabéns! Você ganhou!")
             break
 
 def print_game_view():
@@ -153,6 +149,7 @@ def is_possible_to_play(position):
     return (position >= 0 and position < grid_size) and grid[position] == empty_char
 
 def finish_game(reason):
+    print_game_view()
     print(f"Fim de jogo. {reason}")
 
 # Launcher
